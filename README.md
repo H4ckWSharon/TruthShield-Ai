@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/hero-banner.svg" alt="TruthShield AI — AI-Powered Digital Content Protection & Removal Assistance Platform" width="100%" />
+<img src="docs/assets/truthshield-hero.svg" alt="TruthShield AI — AI-Powered Digital Content Protection & Removal Assistance Platform" width="100%" />
 
 <br />
 
