@@ -138,7 +138,7 @@ truthshield-ai/
 cd backend
 python -m venv venv
 .\venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r requirements-ml.txt  # or requirements.txt for lightweight API mode
 alembic upgrade head
 uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```

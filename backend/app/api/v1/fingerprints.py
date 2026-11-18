@@ -5,9 +5,13 @@ from typing import List, Optional, Dict, Any
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
-import cv2
 from PIL import Image
 from rapidfuzz import fuzz
+
+try:
+    import cv2  # type: ignore
+except ImportError:
+    cv2 = None
 
 from app.core.database import get_db
 from app.core.deps import get_current_user, record_audit_log
@@ -28,25 +32,44 @@ from app.services.media.audio_analyzer import decode_audio_to_pcm16k, compute_au
 router = APIRouter(prefix="/fingerprints", tags=["Content Fingerprinting & Vault"])
 
 def _extract_video_keyframe_phashes(video_bytes: bytes, suffix: str = ".mp4") -> List[str]:
-    """Sample up to 5 keyframes from video bytes and return their pHashes."""
+    """Sample up to 5 keyframes from video bytes using OpenCV or PyAV fallback."""
     phashes: List[str] = []
     with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tf:
         tf.write(video_bytes)
         temp_path = tf.name
     try:
-        cap = cv2.VideoCapture(temp_path)
-        if cap.isOpened():
-            total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
-            indices = [int(i * (total - 1) / 4) for i in range(5)] if total > 4 else list(range(max(1, total)))
-            for idx in indices:
-                cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
-                ret, frame = cap.read()
-                if ret and frame is not None:
-                    pil_img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                    h = compute_perceptual_hashes(pil_img)
-                    if h.get("phash"):
-                        phashes.append(h["phash"])
-            cap.release()
+        if cv2 is not None:
+            cap = cv2.VideoCapture(temp_path)
+            if cap.isOpened():
+                total = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+                indices = [int(i * (total - 1) / 4) for i in range(5)] if total > 4 else list(range(max(1, total)))
+                for idx in indices:
+                    cap.set(cv2.CAP_PROP_POS_FRAMES, idx)
+                    ret, frame = cap.read()
+                    if ret and frame is not None:
+                        pil_img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+                        h = compute_perceptual_hashes(pil_img)
+                        if h.get("phash"):
+                            phashes.append(h["phash"])
+                cap.release()
+        else:
+            import av
+            with av.open(temp_path) as container:
+                video_streams = [s for s in container.streams if s.type == "video"]
+                if video_streams:
+                    frames = []
+                    for i, frame in enumerate(container.decode(video=0)):
+                        frames.append(frame.to_image())
+                        if i >= 60:
+                            break
+                    if frames:
+                        step = max(1, len(frames) // 5)
+                        for idx in range(0, len(frames), step):
+                            h = compute_perceptual_hashes(frames[idx])
+                            if h.get("phash"):
+                                phashes.append(h["phash"])
+                            if len(phashes) >= 5:
+                                break
     finally:
         if os.path.exists(temp_path):
             try:

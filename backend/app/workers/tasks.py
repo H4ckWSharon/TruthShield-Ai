@@ -6,7 +6,11 @@ from app.services.media.url_analyzer import verify_url_live_status
 from datetime import datetime, timezone
 import uuid
 
-@celery_app.task(name="truthshield.verify_case_urls")
+def _task_decorator(fn):
+    return celery_app.task(name="truthshield.verify_case_urls")(fn) if celery_app is not None else fn
+
+
+@_task_decorator
 def verify_case_urls_task(case_id: str, user_id: str) -> dict:
     """Background task to recheck case URLs and notify if verified removed."""
     db = SessionLocal()
