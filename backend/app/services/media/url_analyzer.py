@@ -89,7 +89,7 @@ async def _safe_fetch_with_redirects(url: str) -> Dict[str, Any]:
     """
     current_url, resolved_ips = validate_url_safe(url)
     redirect_chain: List[str] = [current_url]
-    headers = {"User-Agent": "TruthShield-Inspector/2.0 (alphardcrucis.com)"}
+    headers = {"User-Agent": "TruthShield-Inspector/2.0 (TruthShield AI)"}
 
     async with httpx.AsyncClient(timeout=6.0, follow_redirects=False) as client:
         for _ in range(MAX_REDIRECT_HOPS + 1):

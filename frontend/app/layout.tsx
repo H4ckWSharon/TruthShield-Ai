@@ -6,7 +6,7 @@ import { Sidebar } from "@/components/Sidebar";
 
 export const metadata: Metadata = {
   title: "TruthShield AI — Digital Content Protection Platform",
-  description: "AI-Powered Digital Content Protection & Removal Assistance Platform by Alphard Crucis Private Limited.",
+  description: "AI-Powered Digital Content Protection & Removal Assistance Platform.",
 };
 
 export default function RootLayout({

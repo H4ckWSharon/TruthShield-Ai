@@ -62,7 +62,7 @@ def test_root_and_health(client):
     assert res.status_code == 200
     data = res.json()
     assert data["platform"] == "TruthShield AI"
-    assert data["company"] == "Alphard Crucis Private Limited"
+    assert data["company"] == "TruthShield AI"
     assert data["auth_required"] is False
 
     res_health = client.get("/api/health")

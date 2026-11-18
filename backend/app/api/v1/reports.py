@@ -23,7 +23,7 @@ def create_report(
 ):
     """
     Compile and render a tamper-evident, evidence-based PDF investigation report
-    with Alphard Crucis Private Limited & TruthShield AI branding.
+    with TruthShield AI branding.
     """
     case = db.query(Case).filter(Case.id == payload.case_id).first()
     if not case:

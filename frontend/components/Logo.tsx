@@ -49,7 +49,7 @@ export const Logo: React.FC<LogoProps> = ({ size = "md", showTagline = false }) 
           </span>
         </div>
         <p className="text-[10px] uppercase tracking-wider text-slate-400 font-medium">
-          Alphard Crucis
+          Content Protection
         </p>
         {showTagline && (
           <p className="text-[11px] text-cyan-300 italic mt-0.5">

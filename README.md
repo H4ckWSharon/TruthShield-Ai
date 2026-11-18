@@ -10,7 +10,7 @@
 [![Frontend](https://img.shields.io/badge/Frontend-Next.js%2014%20%2B%20TypeScript-3B82F6?style=for-the-badge&logo=nextdotjs&logoColor=white)](#)
 [![Local AI](https://img.shields.io/badge/Local%20AI-RapidOCR%20%2B%20Whisper%20%2B%20Ollama-8B5CF6?style=for-the-badge)](#)
 
-**Alphard Crucis Private Limited** · *“Together for a Safer Digital World”*
+*“Together for a Safer Digital World”*
 
 [Quickstart](#-quickstart-local-development) · [How It Works](#-how-truthshield-ai-works) · [Security Architecture](#-security--vault-hardening) · [Pages & UI](#-guided-workspace-pages) · [Docker](#-production-docker-deployment)
 
@@ -189,6 +189,6 @@ npm run build
 
 <div align="center">
 
-**Built by Alphard Crucis Private Limited** · *“Together for a Safer Digital World”*
+**TruthShield AI** · *“Together for a Safer Digital World”*
 
 </div>

@@ -14,7 +14,7 @@ _DEFAULT_STORAGE = (
 class Settings(BaseSettings):
     APP_NAME: str = "TruthShield AI"
     APP_VERSION: str = "2.0.0"
-    COMPANY_NAME: str = "Alphard Crucis Private Limited"
+    COMPANY_NAME: str = "TruthShield AI"
     TAGLINE: str = "Together for a Safer Digital World"
     ENV: str = "development"
     DEBUG: bool = True
@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     REQUIRE_AUTH: bool = False
 
     # Security
-    SECRET_KEY: str = "truthshield-dev-secret-key-alphard-crucis-2026-change-in-production"
+    SECRET_KEY: str = "truthshield-dev-secret-key-2026-change-in-production"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 24 hours
     EVIDENCE_ENCRYPTION_KEY: Optional[str] = None

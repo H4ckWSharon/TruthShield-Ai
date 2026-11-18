@@ -1,5 +1,4 @@
 # TruthShield AI — Development Status Tracker
-**Company:** Alphard Crucis Private Limited  
 **Tagline:** "Together for a Safer Digital World"  
 **Platform:** TruthShield AI (Production Build v2.0.0)
 
