@@ -1,0 +1,99 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: truthshield-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-truthshield_db}
+      POSTGRES_USER: ${POSTGRES_USER:-truthshield_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-truthshield_change_me_pg}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-truthshield_user} -d ${POSTGRES_DB:-truthshield_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: truthshield-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
+    container_name: truthshield-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      ENV: ${ENV:-production}
+      DEBUG: ${DEBUG:-false}
+      REQUIRE_AUTH: ${REQUIRE_AUTH:-false}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-truthshield_user}:${POSTGRES_PASSWORD:-truthshield_change_me_pg}@db:5432/${POSTGRES_DB:-truthshield_db}
+      REDIS_URL: redis://redis:6379/0
+      STORAGE_DIR: /app/storage
+      SECRET_KEY: ${SECRET_KEY:-replace_with_32_byte_hex_secret_key}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - ./storage:/app/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
+    container_name: truthshield-worker
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: ["celery", "-A", "app.workers.celery_app", "worker", "--loglevel=info"]
+    environment:
+      ENV: ${ENV:-production}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-truthshield_user}:${POSTGRES_PASSWORD:-truthshield_change_me_pg}@db:5432/${POSTGRES_DB:-truthshield_db}
+      REDIS_URL: redis://redis:6379/0
+      STORAGE_DIR: /app/storage
+      SECRET_KEY: ${SECRET_KEY:-replace_with_32_byte_hex_secret_key}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+    volumes:
+      - ./storage:/app/storage
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/Dockerfile.frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000/api/v1}
+    container_name: truthshield-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+
+volumes:
+  pgdata:

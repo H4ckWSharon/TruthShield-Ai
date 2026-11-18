@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #060A17;
+  --foreground: #F8FAFC;
+}
+
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(0, 180, 216, 0.07), transparent 40%),
+    radial-gradient(circle at 85% 10%, rgba(59, 130, 246, 0.06), transparent 35%);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060A17;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E293B;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38BDF8;
+}
+
+@layer components {
+  .minimal-card {
+    @apply rounded-2xl border border-slate-800/80 bg-slate-900/55 backdrop-blur-md transition-all duration-200;
+  }
+
+  .minimal-card-interactive {
+    @apply minimal-card hover:border-cyan-500/40 hover:bg-slate-900/80 hover:shadow-lg hover:shadow-cyan-950/30;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-500 px-4 py-2.5 text-xs font-semibold text-slate-950 transition-all duration-150 hover:bg-cyan-400 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50 shadow-sm shadow-cyan-500/20;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700/80 bg-slate-800/80 px-4 py-2.5 text-xs font-semibold text-slate-100 transition-all duration-150 hover:border-slate-600 hover:bg-slate-700/80 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-xl px-3 py-2 text-xs font-medium text-slate-300 transition-colors hover:bg-slate-800/70 hover:text-white;
+  }
+}

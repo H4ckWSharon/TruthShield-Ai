@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-label="TruthShield AI End-to-End Pipeline Animation">
+  <defs>
+    <linearGradient id="pipeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#060A17" />
+      <stop offset="100%" stop-color="#0D162C" />
+    </linearGradient>
+
+    <linearGradient id="cardFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#111C36" />
+      <stop offset="100%" stop-color="#0A1124" />
+    </linearGradient>
+
+    <linearGradient id="flowLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06B6D4" />
+      <stop offset="50%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+
+    <style>
+      .sans { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif; }
+      .mono { font-family: 'Consolas', 'SFMono-Regular', 'Courier New', monospace; }
+
+      @keyframes dashMove {
+        to { stroke-dashoffset: -40; }
+      }
+      @keyframes stagePulse1 {
+        0%, 100% { stroke: #1E3A5F; }
+        12%, 25% { stroke: #22D3EE; }
+        38% { stroke: #1E3A5F; }
+      }
+      @keyframes stagePulse2 {
+        0%, 25%, 100% { stroke: #1E3A5F; }
+        37%, 50% { stroke: #38BDF8; }
+        63% { stroke: #1E3A5F; }
+      }
+      @keyframes stagePulse3 {
+        0%, 50%, 100% { stroke: #1E3A5F; }
+        62%, 75% { stroke: #60A5FA; }
+        88% { stroke: #1E3A5F; }
+      }
+      @keyframes stagePulse4 {
+        0%, 75% { stroke: #1E3A5F; }
+        87%, 96% { stroke: #34D399; }
+        100% { stroke: #1E3A5F; }
+      }
+
+      .flowDash { stroke-dasharray: 10 10; animation: dashMove 1.4s linear infinite; }
+      .s1 { animation: stagePulse1 8s ease-in-out infinite; }
+      .s2 { animation: stagePulse2 8s ease-in-out infinite; }
+      .s3 { animation: stagePulse3 8s ease-in-out infinite; }
+      .s4 { animation: stagePulse4 8s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <rect x="6" y="6" width="1188" height="288" rx="18" fill="url(#pipeBg)" stroke="#1E293B" stroke-width="1.5" />
+
+  <!-- Header -->
+  <text x="36" y="42" fill="#38BDF8" font-size="12" font-weight="700" letter-spacing="1.8" class="mono">
+    HOW TRUTHSHIELD AI WORKS • END-TO-END FORENSIC &amp; TAKEDOWN PIPELINE
+  </text>
+  <line x1="36" y1="56" x2="1164" y2="56" stroke="#1E293B" stroke-width="1" />
+
+  <!-- Animated Connector Track Behind Cards -->
+  <line x1="150" y1="168" x2="1050" y2="168" stroke="url(#flowLineGrad)" stroke-width="3" stroke-opacity="0.35" class="flowDash" />
+
+  <!-- Traveling Data Orb 1 -->
+  <circle cx="150" cy="168" r="6" fill="#22D3EE">
+    <animate attributeName="cx" values="268;318;560;610;852;902" dur="4s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="1;1;0;1;1;0;1;1" dur="4s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Connector 1 -> 2 -->
+  <path d="M 272 168 L 316 168" stroke="#22D3EE" stroke-width="2.5" stroke-dasharray="5 5" class="flowDash" />
+  <polygon points="316,162 326,168 316,174" fill="#22D3EE" />
+
+  <!-- Connector 2 -> 3 -->
+  <path d="M 564 168 L 608 168" stroke="#3B82F6" stroke-width="2.5" stroke-dasharray="5 5" class="flowDash" />
+  <polygon points="608,162 618,168 608,174" fill="#3B82F6" />
+
+  <!-- Connector 3 -> 4 -->
+  <path d="M 856 168 L 900 168" stroke="#10B981" stroke-width="2.5" stroke-dasharray="5 5" class="flowDash" />
+  <polygon points="900,162 910,168 900,174" fill="#10B981" />
+
+  <!-- STAGE 1 -->
+  <g transform="translate(36, 82)">
+    <rect x="0" y="0" width="236" height="176" rx="14" fill="url(#cardFill)" stroke="#1E3A5F" stroke-width="1.8" class="s1" />
+    <rect x="16" y="16" width="66" height="22" rx="6" fill="#083344" stroke="#06B6D4" stroke-width="1" />
+    <text x="27" y="31" fill="#67E8F9" font-size="11" font-weight="700" class="mono">STEP 01</text>
+    <text x="16" y="64" fill="#FFFFFF" font-size="17" font-weight="700" class="sans">Ingest &amp; Guard</text>
+    <text x="16" y="88" fill="#94A3B8" font-size="12" class="sans">Upload media or paste link</text>
+    <line x1="16" y1="104" x2="220" y2="104" stroke="#1E293B" stroke-width="1" />
+    <text x="16" y="124" fill="#CBD5E1" font-size="11" class="mono">• Magic-Byte Validation</text>
+    <text x="16" y="143" fill="#CBD5E1" font-size="11" class="mono">• SSRF IP/Hop Inspection</text>
+    <text x="16" y="162" fill="#CBD5E1" font-size="11" class="mono">• 180 RPM Rate Limiter</text>
+  </g>
+
+  <!-- STAGE 2 -->
+  <g transform="translate(328, 82)">
+    <rect x="0" y="0" width="236" height="176" rx="14" fill="url(#cardFill)" stroke="#1E3A5F" stroke-width="1.8" class="s2" />
+    <rect x="16" y="16" width="66" height="22" rx="6" fill="#082F49" stroke="#38BDF8" stroke-width="1" />
+    <text x="27" y="31" fill="#BAE6FD" font-size="11" font-weight="700" class="mono">STEP 02</text>
+    <text x="16" y="64" fill="#FFFFFF" font-size="17" font-weight="700" class="sans">Local Forensic AI</text>
+    <text x="16" y="88" fill="#94A3B8" font-size="12" class="sans">Extract &amp; score signals</text>
+    <line x1="16" y1="104" x2="220" y2="104" stroke="#1E293B" stroke-width="1" />
+    <text x="16" y="124" fill="#CBD5E1" font-size="11" class="mono">• ELA Tampering + EXIF</text>
+    <text x="16" y="143" fill="#CBD5E1" font-size="11" class="mono">• RapidOCR + Whisper</text>
+    <text x="16" y="162" fill="#CBD5E1" font-size="11" class="mono">• Ollama (llama3.2/llava)</text>
+  </g>
+
+  <!-- STAGE 3 -->
+  <g transform="translate(620, 82)">
+    <rect x="0" y="0" width="236" height="176" rx="14" fill="url(#cardFill)" stroke="#1E3A5F" stroke-width="1.8" class="s3" />
+    <rect x="16" y="16" width="66" height="22" rx="6" fill="#172554" stroke="#60A5FA" stroke-width="1" />
+    <text x="27" y="31" fill="#BFDBFE" font-size="11" font-weight="700" class="mono">STEP 03</text>
+    <text x="16" y="64" fill="#FFFFFF" font-size="17" font-weight="700" class="sans">Vault &amp; Hash Lock</text>
+    <text x="16" y="88" fill="#94A3B8" font-size="12" class="sans">Encrypt &amp; fingerprint copies</text>
+    <line x1="16" y1="104" x2="220" y2="104" stroke="#1E293B" stroke-width="1" />
+    <text x="16" y="124" fill="#CBD5E1" font-size="11" class="mono">• Fernet Encrypted Vault</text>
+    <text x="16" y="143" fill="#CBD5E1" font-size="11" class="mono">• SHA-256 + 4x Perceptual</text>
+    <text x="16" y="162" fill="#CBD5E1" font-size="11" class="mono">• Acoustic 64-bit Match</text>
+  </g>
+
+  <!-- STAGE 4 -->
+  <g transform="translate(912, 82)">
+    <rect x="0" y="0" width="252" height="176" rx="14" fill="url(#cardFill)" stroke="#1E3A5F" stroke-width="1.8" class="s4" />
+    <rect x="16" y="16" width="66" height="22" rx="6" fill="#064E3B" stroke="#34D399" stroke-width="1" />
+    <text x="27" y="31" fill="#A7F3D0" font-size="11" font-weight="700" class="mono">STEP 04</text>
+    <text x="16" y="64" fill="#FFFFFF" font-size="17" font-weight="700" class="sans">Takedown &amp; Verify</text>
+    <text x="16" y="88" fill="#94A3B8" font-size="12" class="sans">Prepare notice &amp; track removal</text>
+    <line x1="16" y1="104" x2="236" y2="104" stroke="#1E293B" stroke-width="1" />
+    <text x="16" y="124" fill="#CBD5E1" font-size="11" class="mono">• Branded ReportLab PDF</text>
+    <text x="16" y="143" fill="#CBD5E1" font-size="11" class="mono">• Copy-Ready Platform Notice</text>
+    <text x="16" y="162" fill="#CBD5E1" font-size="11" class="mono">• Live URL Takedown Check</text>
+  </g>
+
+  <!-- Animated Bottom Signal Wave -->
+  <rect x="36" y="274" width="1128" height="4" rx="2" fill="#0F172A" />
+  <rect x="36" y="274" width="220" height="4" rx="2" fill="url(#flowLineGrad)">
+    <animate attributeName="x" values="36;944;36" dur="4.8s" repeatCount="indefinite" />
+  </rect>
+</svg>
