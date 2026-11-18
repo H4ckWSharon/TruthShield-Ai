@@ -5,10 +5,25 @@ import os
 import warnings
 
 _BASE_DIR = Path(__file__).resolve().parent.parent.parent
+_IS_VERCEL = bool(os.getenv("VERCEL") or os.getenv("VERCEL_ENV"))
 _DEFAULT_STORAGE = (
-    _BASE_DIR.parent / "storage"
-    if (_BASE_DIR.parent / "docker-compose.yml").exists()
-    else _BASE_DIR / "storage"
+    Path("/tmp/truthshield_storage")
+    if _IS_VERCEL
+    else (
+        _BASE_DIR.parent / "storage"
+        if (_BASE_DIR.parent / "docker-compose.yml").exists()
+        else _BASE_DIR / "storage"
+    )
+)
+_DEFAULT_DB_URL = (
+    os.getenv("DATABASE_URL")
+    or os.getenv("POSTGRES_URL")
+    or os.getenv("PRISMA_DATABASE_URL")
+    or (
+        "sqlite:////tmp/truthshield.db"
+        if _IS_VERCEL
+        else f"sqlite:///{(_BASE_DIR / 'truthshield.db').as_posix()}"
+    )
 )
 
 class Settings(BaseSettings):
@@ -31,8 +46,8 @@ class Settings(BaseSettings):
     EVIDENCE_ENCRYPTION_KEY: Optional[str] = None
     RATE_LIMIT_RPM: int = 180
 
-    # Database (SQLite zero-config default; supports PostgreSQL via DATABASE_URL)
-    DATABASE_URL: str = f"sqlite:///{(_BASE_DIR / 'truthshield.db').as_posix()}"
+    # Database (SQLite zero-config default; supports PostgreSQL via DATABASE_URL / POSTGRES_URL)
+    DATABASE_URL: str = _DEFAULT_DB_URL
 
     # Redis & Background Workers
     REDIS_URL: str = "redis://localhost:6379/0"
@@ -57,6 +72,8 @@ class Settings(BaseSettings):
     def sqlalchemy_database_uri(self) -> str:
         """Normalize postgresql:// URLs to use psycopg v3 driver cleanly."""
         url = self.DATABASE_URL
+        if url.startswith("postgres://"):
+            return url.replace("postgres://", "postgresql+psycopg://", 1)
         if url.startswith("postgresql://"):
             return url.replace("postgresql://", "postgresql+psycopg://", 1)
         return url

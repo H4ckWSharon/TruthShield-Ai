@@ -14,6 +14,7 @@ def _get_or_create_vault_key() -> bytes:
         return _KEY_FILE.read_bytes().strip()
 
     key = Fernet.generate_key()
+    _KEY_FILE.parent.mkdir(parents=True, exist_ok=True)
     _KEY_FILE.write_bytes(key)
     try:
         os.chmod(_KEY_FILE, 0o600)
